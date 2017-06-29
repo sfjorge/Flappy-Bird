@@ -58,7 +58,7 @@ def move_background(x_bg, x1_bg, y_bg):
     background = pygame.transform.scale(background, (400,500))
     screen.blit(background, (x_bg,y_bg))
     screen.blit(background, (x1_bg, y_bg))
-     
+    
 def flappy(x,y, y_speed):
     if y_speed < 0:
         #falling image
@@ -68,7 +68,7 @@ def flappy(x,y, y_speed):
         screen.blit(imageDown, (x-20,y-10))
 
 def gameover():
-*    font = pygame.font.SysFont(None,50)
+    font = pygame.font.SysFont(None,50)
     text = font.render("Game Over ",True,red)
     screen.blit(text, [200,250])
 
@@ -78,7 +78,7 @@ def Score(score):
     text = font.render(str(score),True,white)
     screen.blit(text, [200,62])
     
- def high_score(highScore):
+def high_score(highScore):
     font = pygame.font.SysFont(None,30)
     text = font.render("High Score: "+str(highScore),True,black)
     screen.blit(text, [250,0])
