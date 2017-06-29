@@ -1,3 +1,4 @@
+#Input Pipes
 
 import pygame
 import random
@@ -33,13 +34,16 @@ score = 0
 
 highScore = 0
 
+
 def obstacles(xloc,yloc,xsize,ysize):
+    imgTop = pygame.image.load('pipe.png')
+    imgBottom = pygame.image.load('pipe.png')
+    imgTop = pygame.transform.rotate(imgTop, 180)
+    imgTop = pygame.transform.scale(imgTop, (xsize, ysize))
+    imgBottom = pygame.transform.scale(imgBottom, (xsize, 500 - ysize))
     
-    
-    pygame.draw.rect(screen,black,  [xloc-3, yloc, xsize+6, ysize+3])
-    pygame.draw.rect(screen,black, [xloc-3, int(yloc+ysize+space)-3,xsize+6,ysize+497])
-    pygame.draw.rect(screen,green, [xloc,yloc,xsize,ysize])
-    pygame.draw.rect(screen,green, [xloc,int(yloc+ysize+space), xsize, ysize+500])
+    screen.blit(imgTop, (xloc, yloc))
+    screen.blit(imgBottom, (xloc, int(yloc + ysize + space)))
 
 imageUp = pygame.image.load('flappy_up.png')
 imageDown = pygame.image.load('flappy_down.png')
