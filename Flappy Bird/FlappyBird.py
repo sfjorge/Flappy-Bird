@@ -135,7 +135,7 @@ while not done:
         score = (score + 1)
     
     pygame.display.flip()
-    clock.tick(60)
+    clock.tick(40)
     
 pygame.quit()
     
