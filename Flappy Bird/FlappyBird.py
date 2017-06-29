@@ -1,4 +1,4 @@
-#Input Pipes
+#Moving background
 
 import pygame
 import random
@@ -19,6 +19,9 @@ pygame.display.set_caption("Flappy Bird")
 done = False
 clock = pygame.time.Clock()
 
+x_bg = 0
+y_bg = 0
+x1_bg = 400
 x = 200
 y = 250
 x_speed = 0
@@ -50,6 +53,12 @@ imageDown = pygame.image.load('flappy_down.png')
 imageUp = pygame.transform.scale(imageUp, (40,40))
 imageDown = pygame.transform.scale(imageDown, (80,40))
 
+def move_background(x_bg, x1_bg, y_bg):
+    background = pygame.image.load('background.png')
+    background = pygame.transform.scale(background, (400,500))
+    screen.blit(background, (x_bg,y_bg))
+    screen.blit(background, (x1_bg, y_bg))
+    
 def flappy(x,y, y_speed):
     if y_speed < 0:
         #falling image
@@ -85,6 +94,9 @@ while not done:
                 y_speed = 5
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
+                x_bg = 0
+                y_bg = 0
+                x1_bg = 400
                 x = 200
                 y = 250
                 x_speed = 0
@@ -98,7 +110,17 @@ while not done:
                 obspeed = 2.5
                 score = 0
         
-    screen.fill(skyBlue)    
+    screen.fill(skyBlue) 
+    
+    move_background(x_bg, x1_bg, y_bg)
+    x_bg -= obspeed
+    x1_bg -= obspeed
+    #width divided by to = 200
+    if x_bg + 400 == 0:
+        x_bg = 400 
+    if x1_bg + 400 == 0:
+        x1_bg = 400
+    
     obstacles(xloc,yloc,xsize,ysize)
     flappy(x,y,y_speed)    
     #if the ball is between to obstacles 
