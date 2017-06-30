@@ -1,4 +1,4 @@
-#Moving background
+#Changes sprite when Flappy dies
 
 import pygame
 import random
@@ -19,6 +19,7 @@ pygame.display.set_caption("Flappy Bird")
 done = False
 clock = pygame.time.Clock()
 
+dead = False
 x_bg = 0
 y_bg = 0
 x1_bg = 400
@@ -37,7 +38,6 @@ score = 0
 
 highScore = 0
 
-
 def obstacles(xloc,yloc,xsize,ysize):
     imgTop = pygame.image.load('pipe.png')
     imgBottom = pygame.image.load('pipe.png')
@@ -52,6 +52,8 @@ imageUp = pygame.image.load('flappy_up.png')
 imageDown = pygame.image.load('flappy_down.png')
 imageUp = pygame.transform.scale(imageUp, (40,40))
 imageDown = pygame.transform.scale(imageDown, (80,40))
+imageDead = pygame.image.load('deadBlue.png')
+imageDead = pygame.transform.scale(imageDead, (28,23))
 
 def move_background(x_bg, x1_bg, y_bg):
     background = pygame.image.load('background.png')
@@ -60,13 +62,16 @@ def move_background(x_bg, x1_bg, y_bg):
     screen.blit(background, (x1_bg, y_bg))
     
 def flappy(x,y, y_speed):
-    if y_speed < 0:
-        #falling image
-        screen.blit(imageUp, (x,y))
-    elif y_speed >= 0:
-        #flapping image
-        screen.blit(imageDown, (x-20,y-10))
-
+    if dead == False:
+        if y_speed < 0:
+            #falling image
+            screen.blit(imageUp, (x,y))
+        elif y_speed >= 0:
+            #flapping image
+            screen.blit(imageDown, (x-20,y-10))
+    elif dead == True:
+        screen.blit(imageDead, (x + 10,y))
+            
 def gameover():
     font = pygame.font.SysFont(None,50)
     text = font.render("Game Over ",True,red)
@@ -94,6 +99,7 @@ while not done:
                 y_speed = 5
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
+                dead = False
                 x_bg = 0
                 y_bg = 0
                 x1_bg = 400
@@ -135,20 +141,23 @@ while not done:
         highScore
     if y > ground:
         gameover()
-        y_speed = 0
+        y_speed = 0 
         obspeed = 0
+        dead = True
     
     #if we hit obstacles in the top block
     if x+40 > xloc and y < ysize and x-15 < xsize+xloc:
         gameover()
         obspeed = 0
         y_speed = 0
+        dead = True
         
     #if we hit obstacles in the bottom block
-    if x+20 > xloc and y+25 > ysize+space and x-15 < xsize+xloc:
+    if x+30 > xloc and y+25 > ysize+space and x-15 < xsize+xloc:
         gameover()
         obspeed = 0
         y_speed = 0
+        dead = True
     
     #if obstacle location X is 
     if xloc < -80:
