@@ -1,4 +1,4 @@
-#Changes sprite when Flappy dies
+#Flappy falls when dead
 
 import pygame
 import random
@@ -119,54 +119,63 @@ while not done:
     screen.fill(skyBlue) 
     
     move_background(x_bg, x1_bg, y_bg)
-    x_bg -= obspeed * (2.0/3)
-    x1_bg -= obspeed * (2.0/3)
-    #width divided by to = 200
-    if x_bg + 400 < 0:
-        x_bg = 400 
-    if x1_bg + 400 < 0:
-        x1_bg = 400
-    
-    obstacles(xloc,yloc,xsize,ysize)
-    flappy(x,y,y_speed)    
-    #if the ball is between to obstacles 
-    Score(score)
-    high_score(highScore)
-    
-    y += y_speed
-    xloc -= obspeed
-    if score >= highScore:
-        highScore = score
-    elif score < highScore:
-        highScore
-    if y > ground:
-        gameover()
-        y_speed = 0 
-        obspeed = 0
-        dead = True
-    
-    #if we hit obstacles in the top block
-    if x+40 > xloc and y < ysize and x-15 < xsize+xloc:
-        gameover()
-        obspeed = 0
-        y_speed = 0
-        dead = True
-        
-    #if we hit obstacles in the bottom block
-    if x+30 > xloc and y+25 > ysize+space and x-15 < xsize+xloc:
-        gameover()
-        obspeed = 0
-        y_speed = 0
-        dead = True
-    
-    #if obstacle location X is 
-    if xloc < -80:
-        xloc = 400
-        ysize = random.randint(0,350)
-    
-    #check if obstacle was passed adding to score
-    if x > xloc and x < xloc+3:
-        score = (score + 1)
+    if dead == False:
+        x_bg -= obspeed * (2.0/3)
+        x1_bg -= obspeed * (2.0/3)
+        #width divided by to = 200
+        if x_bg + 400 < 0:
+            x_bg = 400 
+        if x1_bg + 400 < 0:
+            x1_bg = 400
+
+        obstacles(xloc,yloc,xsize,ysize)
+        flappy(x,y,y_speed)    
+        #if the ball is between to obstacles 
+        Score(score)
+        high_score(highScore)
+
+        y += y_speed
+        xloc -= obspeed
+        if score >= highScore:
+            highScore = score
+        elif score < highScore:
+            highScore
+        if y > ground:
+            gameover()
+            y_speed = 0 
+            obspeed = 0
+            dead = True
+
+        #if we hit obstacles in the top block
+        if x+40 > xloc and y < ysize and x-15 < xsize+xloc:
+            gameover()
+            obspeed = 0
+            y_speed = 0
+            dead = True
+
+        #if we hit obstacles in the bottom block
+        if x+30 > xloc and y+25 > ysize+space and x-15 < xsize+xloc:
+            gameover()
+            obspeed = 0
+            y_speed = 0
+            dead = True
+
+        #if obstacle location X is 
+        if xloc < -80:
+            xloc = 400
+            ysize = random.randint(0,350)
+
+        #check if obstacle was passed adding to score
+        if x > xloc and x < xloc+3:
+            score = (score + 1)
+    elif dead == True:
+        obstacles(xloc,yloc,xsize,ysize)
+        flappy(x,y,y_speed)    
+        #if the ball is between to obstacles 
+        Score(score)
+        high_score(highScore)
+        if y <= ground-2:
+            y += 6
     
     pygame.display.flip()
     clock.tick(40)
