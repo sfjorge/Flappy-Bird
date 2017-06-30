@@ -1,4 +1,4 @@
-#Flappy falls when dead
+#Adding floor to background
 
 import pygame
 import random
@@ -27,11 +27,11 @@ x = 200
 y = 250
 x_speed = 0
 y_speed = 0
-ground = 477
+ground = 447
 xloc=400
 yloc = 0
 xsize = 70
-ysize = random.randint(0,350)
+ysize = random.randint(5,230)
 space = 150
 obspeed = 2.5
 score = 0
@@ -57,9 +57,15 @@ imageDead = pygame.transform.scale(imageDead, (28,23))
 
 def move_background(x_bg, x1_bg, y_bg):
     background = pygame.image.load('background.png')
-    background = pygame.transform.scale(background, (400,500))
+    background = pygame.transform.scale(background, (400,500))  
     screen.blit(background, (x_bg,y_bg))
     screen.blit(background, (x1_bg, y_bg))
+    
+def move_ground(x_bg, x1_bg, y_bg):
+    ground = pygame.image.load('ground.png')
+    ground = pygame.transform.scale(ground, (400,60))    
+    screen.blit(ground,(x_bg,470))
+    screen.blit(ground, (x1_bg,470))
     
 def flappy(x,y, y_speed):
     if dead == False:
@@ -107,7 +113,7 @@ while not done:
                 y = 250
                 x_speed = 0
                 y_speed = 0
-                ground = 477
+                ground = 447
                 xloc=400
                 yloc = 0
                 xsize = 70
@@ -129,6 +135,7 @@ while not done:
             x1_bg = 400
 
         obstacles(xloc,yloc,xsize,ysize)
+        move_ground(x_bg, x1_bg, y_bg)
         flappy(x,y,y_speed)    
         #if the ball is between to obstacles 
         Score(score)
@@ -170,11 +177,12 @@ while not done:
             score = (score + 1)
     elif dead == True:
         obstacles(xloc,yloc,xsize,ysize)
+        move_ground(x_bg, x1_bg, y_bg)
         flappy(x,y,y_speed)    
         #if the ball is between to obstacles 
         Score(score)
         high_score(highScore)
-        if y <= ground-2:
+        if y <= ground:
             y += 6
     
     pygame.display.flip()
