@@ -1,4 +1,4 @@
-#Adding sound
+#Adding sound and background sound
 
 import pygame
 import random 
@@ -8,7 +8,9 @@ pygame.init()
 
 flap = pygame.mixer.Sound('flap.wav')
 point = pygame.mixer.Sound('point.wav')
-
+pygame.mixer.music.load('bgMusic.wav')
+pygame.mixer.music.play()
+pygame.mixer.music.set_volume(0.1)
 
 black = (0,0,0)
 white = (255,255,255)
