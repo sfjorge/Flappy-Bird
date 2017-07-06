@@ -1,10 +1,9 @@
-#Adding sound and background sound
+#Adding intro screen
 
 import pygame
 import random 
 
 pygame.init()
-
 
 flap = pygame.mixer.Sound('flap.wav')
 point = pygame.mixer.Sound('point.wav')
@@ -17,6 +16,7 @@ white = (255,255,255)
 skyBlue = (0,191,255)
 green = (0,255,0)
 red = (255,0,0)
+orange = (255, 215, 0)
 
 size = (400,500)
 screen = pygame.display.set_mode(size)
@@ -100,6 +100,58 @@ def high_score(highScore):
     font = pygame.font.SysFont(None,30)
     text = font.render("High Score: "+str(highScore),True,black)
     screen.blit(text, [250,0])
+    
+def game_intro():
+    intro = True
+    play = False
+    quit = False
+    while intro:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+            if quit == True:
+                if event.type == pygame.MOUSEBUTTONUP:
+                    pygame.quit()
+            if play == True:
+                if event.type == pygame.MOUSEBUTTONUP:
+                    intro = False
+                
+        screen.fill(skyBlue)
+        
+        mouse = pygame.mouse.get_pos()
+        
+        move_background(x_bg, x1_bg, y_bg)
+        move_ground(x_bg, x1_bg, y_bg)
+        flappy(x,y,y_speed) 
+        
+        if 50 + 100 > mouse[0] > 50 and 400 + 50 > mouse[1] > 400:
+            pygame.draw.rect(screen, red, (50,400,100,50))
+            pygame.draw.rect(screen, green, (250,400,100,50))
+            play = True
+        elif 250 + 100 > mouse[0] and 400 + 50 > mouse[1] > 400:
+            pygame.draw.rect(screen, red, (250,400,100,50))
+            pygame.draw.rect(screen, green, (50,400,100,50))
+            quit = True
+        else:
+            play = False
+            quit = False
+            pygame.draw.rect(screen, green, (50,400,100,50))
+            pygame.draw.rect(screen, green, (250,400,100,50))
+        font = pygame.font.SysFont(None,55)
+        text1 = font.render("PLAY",True,white)
+        text2 = font.render("QUIT",True,white)
+        screen.blit(text1, [50,400])
+        screen.blit(text2, [250,400])
+        font2 = pygame.font.SysFont(None, 80)
+        text3 = font.render("FLAPPY BIRD!", True, orange)
+        screen.blit(text3, [50,50])
+        
+        pygame.display.update()
+        clock.tick(40)
+        
+game_intro()
+    
 while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -191,6 +243,7 @@ while not done:
         #if the ball is between to obstacles 
         Score(score)
         high_score(highScore)
+        gameover()
         if y <= ground:
             y += 6
     
