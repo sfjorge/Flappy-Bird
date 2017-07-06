@@ -1,9 +1,14 @@
-#Adding floor to background
+#Adding sound
 
 import pygame
-import random
+import random 
 
 pygame.init()
+
+
+flap = pygame.mixer.Sound('flap.wav')
+point = pygame.mixer.Sound('point.wav')
+
 
 black = (0,0,0)
 white = (255,255,255)
@@ -99,6 +104,7 @@ while not done:
             done = True
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
+                flap.play()
                 y_speed = -10 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_UP:
@@ -175,6 +181,7 @@ while not done:
         #check if obstacle was passed adding to score
         if x > xloc and x < xloc+3:
             score = (score + 1)
+            point.play()
     elif dead == True:
         obstacles(xloc,yloc,xsize,ysize)
         move_ground(x_bg, x1_bg, y_bg)
