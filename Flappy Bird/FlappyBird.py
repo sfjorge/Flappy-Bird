@@ -1,4 +1,4 @@
-#Adding Splash Screen and Sounds
+#Adding gravity
 
 import pygame
 import random 
@@ -40,7 +40,7 @@ ysize = random.randint(5,230)
 space = 150
 obspeed = 2.5
 score = 0
-
+acc = 0.4 
 highScore = 0
 
 def obstacles(xloc,yloc,xsize,ysize):
@@ -98,6 +98,7 @@ def high_score(highScore):
     font = pygame.font.SysFont(None,30)
     text = font.render("High Score: "+str(highScore),True,black)
     screen.blit(text, [250,0])
+    
     
 def splash_screen():
     splash = True
@@ -193,13 +194,9 @@ def game_loop():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 done = True
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_UP:
-                    flap.play()
-                    y_speed = -10
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_UP:
-                    y_speed = 5
+                    y_speed = -7
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     alive = True
@@ -238,6 +235,7 @@ def game_loop():
             Score(score)
             high_score(highScore)
 
+            y_speed += acc
             y += y_speed
             xloc -= obspeed
             if score >= highScore:
