@@ -1,4 +1,4 @@
-#Adding gravity
+#Shifting Obstacles
 
 import pygame
 import random 
@@ -188,6 +188,7 @@ def game_loop():
     space = 150
     obspeed = 2.5
     score = 0
+    ob_movement = 2
 
     highScore = 0
     while not done:
@@ -234,7 +235,12 @@ def game_loop():
             #if the ball is between to obstacles 
             Score(score)
             high_score(highScore)
-
+            if ysize <= 20:
+                ob_movement = 2
+            if ysize >= 230:
+                ob_movement = -2
+            ysize += ob_movement
+            
             y_speed += acc
             y += y_speed
             xloc -= obspeed
